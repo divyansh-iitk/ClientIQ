@@ -1,0 +1,15 @@
+[ 2026-06-11 03:27:18,411 ] root - INFO - Inserted 200 rows into accounts
+[ 2026-06-11 03:27:18,445 ] root - INFO - Inserted 500 rows into contacts
+[ 2026-06-11 03:27:18,571 ] root - INFO - Inserted 1753 rows into tickets
+[ 2026-06-11 03:27:18,673 ] root - INFO - Inserted 7077 rows into ticket_messages
+[ 2026-06-11 03:27:19,229 ] root - INFO - Inserted 44688 rows into usage_events
+[ 2026-06-11 03:27:19,234 ] root - INFO - Inserted 200 rows into subscriptions
+[ 2026-06-11 03:27:19,253 ] root - INFO - Inserted 1615 rows into invoices
+[ 2026-06-11 03:27:19,270 ] root - INFO - Inserted 1121 rows into billing_events
+[ 2026-06-11 03:27:19,375 ] root - INFO - Inserted 4052 rows into emails
+[ 2026-06-11 03:27:19,391 ] root - INFO - Inserted 837 rows into meetings
+[ 2026-06-11 03:27:19,411 ] root - INFO - Inserted 687 rows into call_transcripts
+[ 2026-06-11 03:27:19,428 ] root - INFO - Inserted 1460 rows into csm_notes
+[ 2026-06-11 03:27:19,443 ] root - INFO - Inserted 1371 rows into feedback
+[ 2026-06-11 03:27:19,451 ] root - INFO - Inserted 693 rows into outcomes
+[ 2026-06-11 03:27:19,454 ] root - INFO - All data inserted successfully!
