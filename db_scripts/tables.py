@@ -1,6 +1,7 @@
 from db_scripts.db_connect import engine
 from logger import logging
 from datetime import date, datetime
+from pgvector.sqlalchemy import Vector
 
 from sqlalchemy import (
     String,
@@ -83,6 +84,14 @@ class Ticket(Base):
     subject: Mapped[str]
 
     description: Mapped[str] = mapped_column(Text)
+    
+    embedding: Mapped[list[float] | None] = mapped_column(
+
+        Vector(1536),
+
+        nullable=True
+
+    )
 
 
 class TicketMessage(Base):

@@ -79,61 +79,6 @@ def get_tickets(
         "tickets": tickets
     }
 
-
-
-# from datetime import date
-
-# @router.get("/customers/{customer_id}/summary")
-# def get_summary(
-#     customer_id: str,
-#     db: Session = Depends(get_db)
-# ):
-#     open_tickets = (
-#         db.query(Ticket)
-#         .filter(
-#             Ticket.account_id == customer_id,
-#             Ticket.status == "open"
-#         )
-#         .count()
-#     )
-    
-#     in_progress_tickets = (
-#         db.query(Ticket)
-#         .filter(
-#             Ticket.account_id == customer_id,
-#             Ticket.status == "in_progress"
-#         )
-#         .count()
-#     )
-
-#     account = (
-#         db.query(Account)
-#         .filter(Account.account_id == customer_id)
-#         .first()
-#     )
-
-#     renewal_days = (
-#         account.renewal_date - date.today()
-#     ).days
-
-#     health_score = 100
-
-#     if open_tickets > 3:
-#         health_score -= 20
-    
-#     if in_progress_tickets > 3:
-#         health_score -= 10
-
-#     if renewal_days < 90:
-#         health_score -= 10
-
-#     return {
-#         "customer_id": customer_id,
-#         "open_tickets": open_tickets,
-#         "in_progress_tickets": in_progress_tickets,
-#         "renewal_in_days": renewal_days,
-#         "health_score": health_score
-#     }
     
     
     

@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from logger import logging
 from backend.api.routes import endpoints
 
 @asynccontextmanager
