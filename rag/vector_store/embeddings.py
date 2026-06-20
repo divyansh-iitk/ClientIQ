@@ -36,5 +36,5 @@ class EmbeddingManager:
         if not text:
             return []
         embedding = self.model.embed_query(text)
-        logging.info(f"Generated query embedding, dimension={len(embedding[0])}")
+        logging.info(f"Generated query embedding, dimension={len(embedding)}")
         return embedding

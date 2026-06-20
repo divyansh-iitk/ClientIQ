@@ -6,7 +6,20 @@ from dataclasses import asdict, dataclass
 class EmbeddingConfig:
     embedding_model: str = "gemini-embedding-2-preview"
     embedding_dim: int = 1536
+
+@dataclass
+class SemanticRetrieverConfig:
+    top_k: int = 50
     
     
+
+
+
+
+
+
+
+
+
 if __name__=="__main__":
     print(asdict(EmbeddingConfig()))

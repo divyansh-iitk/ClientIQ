@@ -15,7 +15,7 @@ embedding_manager = EmbeddingManager()
 
 def insert_embeddings(txt: list[str], ticket_data: list) -> None:
     
-    l = 700
+    l = 0
 
     batch_size = 100
 

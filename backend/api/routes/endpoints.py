@@ -1,10 +1,13 @@
 from sqlalchemy.orm import Session
 from db_scripts.db_connect import SessionLocal
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from db_scripts.tables import Account, Ticket, Contact
 from backend.api.schemas.endpoints import (CustomerProfileResponse,
                                            CustomerTicketsResponse,
-                                           CustomerSummaryResponse)
+                                           CustomerSummaryResponse,
+                                           SemanticRetrieverResponse)
+from rag.retrievers.semantic import dense_retriever
+from typing import List
 
 def get_db():
     db = SessionLocal()
@@ -141,3 +144,36 @@ def get_summary(
         "health_score": health_score,
         "risk_tier": risk_tier
     }
+    
+    
+
+@router.get(
+    "/retriever/{query}/semantic",
+    response_model=List[SemanticRetrieverResponse]
+)
+def semantic_retriever(request: Request, query: str, db: Session = Depends(get_db)):
+    
+    embedding_manager = request.app.state.embedding_manager
+    try:
+        retrieved_docs = dense_retriever(query, embedding_manager, db)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Could not generate embedding: {e}"
+        )
+        
+    
+    docs = []
+    
+    for row in retrieved_docs:
+        docs.append({
+            "customer_id": row.account_id,
+            "ticket_id": row.ticket_id,
+            "subject": row.subject,
+            "description": row.description,
+            "relevance_score": 1 - row.distance
+            })
+    
+    return docs
+    
+    
