@@ -12,3 +12,4 @@ wheels/
 data/
 logs/
 rough.ipynb
+.DS_Store

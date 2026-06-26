@@ -9,7 +9,7 @@ class EmbeddingConfig:
 
 @dataclass
 class SemanticRetrieverConfig:
-    top_k: int = 50
+    top_k: int = 5
     
     
 
