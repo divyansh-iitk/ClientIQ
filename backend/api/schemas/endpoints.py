@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from langchain.messages import AIMessage
 from pydantic import BaseModel, ConfigDict
 from typing import List
 
@@ -23,7 +24,6 @@ class CustomerProfileResponse(BaseModel):
     contract_value: float | None = None
     renewal_date: date | None = None
     account_status: str | None = None
-    archetype: str | None = None
 
     contacts: List[ContactResponse] = []
 
@@ -81,5 +81,14 @@ class SemanticRetrieverResponse(BaseModel):
     subject: str
     description: str
     relevance_score: float
+
+
+class FuzzyResponse(BaseModel):
+    account_name: str
+    account_id: str
+    similarity_score: float
+    
+class AgentResponse(BaseModel):
+    response: AIMessage
     
     

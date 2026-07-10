@@ -1,6 +1,6 @@
 from db_scripts.db_connect import SessionLocal
 from sqlalchemy.orm import Session
-from db_scripts.tables import Ticket
+from db_scripts.tables import Ticket, Account
 from typing import List, Dict
         
         
@@ -23,3 +23,13 @@ def get_tickets(db: Session = None) -> List[Dict]:
     finally:
         db.close()
     return ticket_data
+
+def get_accounts(db: Session = None) -> Dict:
+    if not db:
+        db = SessionLocal()
+    try:
+        accounts_data = db.query(Account).with_entities(Account.account_name, Account.account_id).all()
+    finally:
+        db.close()
+    return dict(accounts_data)
+        

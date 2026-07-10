@@ -5,7 +5,7 @@ from typing import Dict
 BASE_URL = "http://localhost:8000/api"
 
 @tool
-def get_customer_data(account_id: str)->Dict:
+def get_customer_profile(account_id: str)->Dict:
     """This api endpoint returns customer data
 
     Args:
@@ -50,17 +50,25 @@ def semantic_retriever(query: str)->Dict:
     
     return response.json()
 
-@tool
-def fuzzy_search(query: str)->Dict:
-    """Returns exact company name using fuzzy search
+# @tool
+# def fuzzy_search(query: str)->Dict:
+#     """Returns exact company name using fuzzy search
 
-    Args:
-        query (str): Company name from query
+#     Args:
+#         query (str): Company name from query
 
-    Returns:
-        Dict: Exact company name with ID
-    """
-    response = requests.get(f"{BASE_URL}/fuzzy_match/{query}")
+#     Returns:
+#         Dict: Exact company name with ID
+#     """
+#     response = requests.get(f"{BASE_URL}/fuzzy_match/{query}")
     
-    return response.json()
+#     return response.json()
+
+
+def fuzzy_search(task_plan: dict)->dict:
+    if task_plan["steps"][0]["step_type"]=="tool":
+        response = requests.get(f"{BASE_URL}/fuzzy_match/{task_plan["steps"][0]["query"]}")
+        for step in task_plan["steps"]:
+            step["account_id"] = response.json()["account_id"]
+    return task_plan
     

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from logger import logging
-from backend.api.routes import endpoints
+from backend.api.routes import chat_endpoint, data_endpoints
 from rag.vector_store.embeddings import EmbeddingManager
 
 @asynccontextmanager
@@ -30,7 +30,8 @@ app = FastAPI(
 )
 
 # Register routes
-app.include_router(endpoints.router, prefix="/api", tags=["Query"])
+app.include_router(data_endpoints.router, prefix="/api", tags=["Query Database"])
+app.include_router(chat_endpoint.router, prefix="/api", tags=["Chat"])
 
 
 @app.get("/")

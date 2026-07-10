@@ -5,9 +5,12 @@ from db_scripts.tables import Account, Ticket, Contact
 from backend.api.schemas.endpoints import (CustomerProfileResponse,
                                            CustomerTicketsResponse,
                                            CustomerSummaryResponse,
-                                           SemanticRetrieverResponse)
+                                           SemanticRetrieverResponse,
+                                           FuzzyResponse)
 from rag.retrievers.semantic import dense_retriever
 from typing import List
+from rag.data_prep.load_data import get_accounts
+from rapidfuzz import process
 
 def get_db():
     db = SessionLocal()
@@ -57,7 +60,6 @@ def get_profile(
         "contract_value": account.contract_value,
         "renewal_date": account.renewal_date,
         "account_status": account.account_status,
-        "archetype": account.archetype,
         "contacts": contacts
     }
 
@@ -175,5 +177,33 @@ def semantic_retriever(request: Request, query: str, db: Session = Depends(get_d
             })
     
     return docs
+
+
+
+@router.get(
+    "/fuzzy_match/{query}",
+    response_model=FuzzyResponse
+)
+def fuzzy_match(query: str):
+    
+    company_db = get_accounts()
+    
+    company_names = list(company_db.keys())
+    
+    result = process.extractOne(query, company_names)
+
+    if result and result[1] > 80:
+
+        return {
+            "account_name": result[0],
+            "account_id": company_db[result[0]],
+            "similarity_score": result[1]
+        }
+    else:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No account named {query}"
+        )
+    
     
     
