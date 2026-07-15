@@ -1,7 +1,11 @@
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from configs.db_config import settings
 from logger import logging
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 try:
@@ -22,6 +26,15 @@ SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
 )
+
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()
+        
 
 
 if __name__ == "__main__":

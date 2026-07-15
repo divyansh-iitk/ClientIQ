@@ -1,4 +1,4 @@
-from db_scripts.db_connect import engine
+from db_scripts.db_connect import Base, engine
 from logger import logging
 from datetime import date, datetime
 from pgvector.sqlalchemy import Vector
@@ -10,15 +10,9 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import (
-    DeclarativeBase,
     Mapped,
     mapped_column,
 )
-
-
-class Base(DeclarativeBase):
-    pass
-
 
 class Account(Base):
     __tablename__ = "accounts"

@@ -74,6 +74,7 @@ Action Planning Guidelines:
 - Prefer the least disruptive action that satisfies the user's request.
 - Do not propose redundant or conflicting actions.
 - Do not propose actions that cannot be justified by the Analyst Report.
+- Always use action_type as "draft_email" or "update_ticket" only, nothing else.
 
 Output Requirements:
 - Return ONLY valid structured output matching the provided Action schema.

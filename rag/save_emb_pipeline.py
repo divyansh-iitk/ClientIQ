@@ -1,4 +1,4 @@
-from rag.data_prep.load_data import get_tickets
+from rag.data_prep.get_data import get_tickets
 from rag.vector_store.embeddings import EmbeddingManager
 from rag.vector_store.save_embeddings import save_embeddings
 import time

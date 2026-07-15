@@ -1,27 +1,26 @@
 from langchain.tools import tool
-import requests
-from typing import Dict
-
-BASE_URL = "http://localhost:8000/api"
+from typing import Any
+from backend import services
+from db_scripts.db_connect import SessionLocal
+from rag.vector_store.embeddings import EmbeddingManager
 
 @tool
-def get_customer_profile(account_id: str)->Dict:
-    """This api endpoint returns customer data
+def get_customer_profile(account_id: str)->dict[str, Any]:
+    """This tool returns customer data
 
     Args:
-        customer_id (str): Unique ID for each customer
+        account_id (str): Unique ID for each customer
 
     Returns:
         Dict: Details of customers
     """
-    response = requests.get(f"{BASE_URL}/customers/{account_id}/profile")
-    
-    return response.json()
-
+    db = SessionLocal()
+    result = services.get_profile(customer_id=account_id, db=db)
+    return result.model_dump(mode="json")
 
 @tool
-def get_ticket_data(account_id: str)->Dict:
-    """This api endpoint returns data of tickets raised by customer
+def get_ticket_data(account_id: str)->dict[str, Any]:
+    """This tool returns data of tickets raised by customer
 
     Args:
         account_id (str): Unique ID for each customer
@@ -29,14 +28,13 @@ def get_ticket_data(account_id: str)->Dict:
     Returns:
         Dict: Details of tickets raised
     """
-    
-    response = requests.get(f"{BASE_URL}/customers/{account_id}/tickets")
-    
-    return response.json()
+    db = SessionLocal()
+    result = services.get_tickets(customer_id=account_id, db=db)
+    return result.model_dump(mode="json")
 
 
 @tool
-def semantic_retriever(query: str)->Dict:
+def semantic_retriever(query: str)->dict[str, Any]:
     """Returns semantic ticket data with respect to query
 
     Args:
@@ -45,30 +43,25 @@ def semantic_retriever(query: str)->Dict:
     Returns:
         Dict: Retrived tickets data
     """
-    
-    response = requests.get(f"{BASE_URL}/retriever/{query}/semantic")
-    
-    return response.json()
+    db = SessionLocal()
+    embedding_manager = EmbeddingManager()
+    result = services.semantic_retriever(embedding_manager=embedding_manager, query=query, db=db)
+    return result.model_dump(mode="json")
 
-# @tool
-# def fuzzy_search(query: str)->Dict:
-#     """Returns exact company name using fuzzy search
+def fuzzy_search(task_plan: dict)->dict[str, Any]:
+    """Returns exact company name using fuzzy search
 
-#     Args:
-#         query (str): Company name from query
+    Args:
+        query (str): Company name from query
 
-#     Returns:
-#         Dict: Exact company name with ID
-#     """
-#     response = requests.get(f"{BASE_URL}/fuzzy_match/{query}")
-    
-#     return response.json()
-
-
-def fuzzy_search(task_plan: dict)->dict:
+    Returns:
+        Dict: task_plan updated with account_id
+    """
+    db = SessionLocal()
     if task_plan["steps"][0]["step_type"]=="tool":
-        response = requests.get(f"{BASE_URL}/fuzzy_match/{task_plan["steps"][0]["query"]}")
+        result = services.fuzzy_match(query=task_plan["steps"][0]["query"], db=db)
         for step in task_plan["steps"]:
-            step["account_id"] = response.json()["account_id"]
+            # step["account_id"] = result["account_id"]
+            step["account_id"] = result.account_id
     return task_plan
     

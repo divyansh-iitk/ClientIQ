@@ -82,6 +82,11 @@ class SemanticRetrieverResponse(BaseModel):
     description: str
     relevance_score: float
 
+class SemanticRetrieverResult(BaseModel):
+    results: List[SemanticRetrieverResponse] | None = None
+    
+    model_config = ConfigDict(from_attributes=True)
+
 
 class FuzzyResponse(BaseModel):
     account_name: str

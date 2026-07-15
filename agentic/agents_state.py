@@ -13,7 +13,7 @@ class AgentState(TypedDict, total=False):
     task_plan: dict
     retrieved_data: Annotated[dict[str, Any], merge_retrieved_data]
     analysis: dict | None
-    proposed_actions: list[dict]
+    proposed_actions: list[dict] | None
     critic_report: list[dict] | None
     hitl_decisions: list[dict]
     retry_count: int
