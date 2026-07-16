@@ -1,4 +1,4 @@
-# 🧠 ClientIQ — Agentic Customer Operations Platform
+# 🧠 ClientIQ - AI-Powered Customer Intelligence Copilot
 
 **Ask questions about your clients in plain English. Get deep, evidence-backed intelligence in seconds.**
 
