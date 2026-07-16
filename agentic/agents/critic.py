@@ -138,8 +138,19 @@ async def critic_node(state: AgentState, llm: BaseChatModel) -> AgentState:
         report = await llm.with_structured_output(CriticReport).ainvoke(
             CRITIC_PROMPT.format(retrieved_data=json.dumps(state["retrieved_data"]),
                                   analysis=json.dumps(state["analysis"]),
-                                  action_plan=json.dumps(state["proposed_actions"]),
+                                  action_plan = json.dumps(state.get("proposed_actions", "")),
                                   task=step["query"],
                                   user_query=state["messages"][0].content)
         )
-        return {"critic_report": report.model_dump(),}
+        
+        report = report.model_dump()
+        
+        if not report.get("approved"):
+            print(report)
+            print(f"retry count: {state.get("retry_count")}")
+            return {
+                "critic_report": report,
+                "retry_count": state.get("retry_count", 0) + 1,
+            }
+        # return {"critic_report": report.model_dump(),}
+        return {"critic_report": report,}

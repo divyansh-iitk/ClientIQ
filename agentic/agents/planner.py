@@ -7,7 +7,7 @@ from langchain.chat_models import BaseChatModel
 
 class TaskStep(BaseModel):
     id: str
-    account_id: str | None
+    account_id: str | None = Field(default=None)
     step_type: Literal["tool", "agent"]
     target: Literal["fuzzy_search", "Customer Data Agent", "Ticket Intelligence Agent",
                     "Analyst Agent", "Action Planner Agent", "Critic Agent", "Final Report Generator Agent"]             

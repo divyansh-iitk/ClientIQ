@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from logger import logging
 from backend.api.routes import chat_endpoint, data_endpoints
 from rag.vector_store.embeddings import EmbeddingManager
+from langserve import add_routes
+from agentic.graph import graph
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,15 +25,16 @@ async def lifespan(app: FastAPI):
     print("Shutting down")
 
 app = FastAPI(
-    title="DB Query API",
-    description="Query database through API",
+    title="DB Query/Chat API",
+    description="Query database through API and LLM",
     version="1.0",
     lifespan=lifespan
 )
 
 # Register routes
 app.include_router(data_endpoints.router, prefix="/api", tags=["Query Database"])
-app.include_router(chat_endpoint.router, prefix="/api", tags=["Chat"])
+# app.include_router(chat_endpoint.router, prefix="/api", tags=["Chat"])
+add_routes(app=app, runnable=graph, path="/chat_agent")
 
 
 @app.get("/")

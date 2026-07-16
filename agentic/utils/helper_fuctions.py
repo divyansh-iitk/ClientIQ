@@ -25,5 +25,5 @@ def route_after_critic(state: AgentState) -> str:
         return "ready_for_final_report"
     if state["retry_count"] >= 2:
         return "ready_for_final_report"
-    state["retry_count"] += 1
+    # state["retry_count"] += 1
     return "needs_more_info"

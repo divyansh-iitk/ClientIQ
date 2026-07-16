@@ -77,7 +77,7 @@ class AnalystReport(BaseModel):
         "good",
         "fair",
         "poor",
-        "critical",
+        "at_risk",
     ]
     findings: list[Finding]
     risks: list[Risk]
@@ -137,6 +137,12 @@ Rules:
     - subscription
     - semantic_documents
     - other
+- Customer Health must be only one of:
+    -excellent
+    -good
+    -fair
+    -poor
+    -at_risk
 
     Do not use tool names such as get_ticket_data or semantic_retriever.
 
